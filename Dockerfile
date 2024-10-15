@@ -12,6 +12,7 @@ RUN go mod init example.com/app || true
 RUN go build -o main .
 
 # Step 5: Expose port 8080
+# Port yang di expose ini nanti dimasukin ke containerPort di pod-assignment.yaml
 EXPOSE 8080
 
 # Step 6: Command to run the executable

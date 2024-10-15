@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: assignment-go-pod
+  labels:
+    name: assignment-go
+spec:
+  containers:
+  - name: assignment-container
+    image: chronzon/assignment-docker-go:latest
+    ports:
+      # container port pake port yang kita expose di Dockerfile
+      - containerPort: 8080
