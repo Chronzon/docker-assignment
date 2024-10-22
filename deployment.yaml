@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: assignment-go-app
+  labels:
+    app: assignment-go-app
+spec:
+  replicas: 3 # number of pods to run
+  selector:
+    matchLabels:
+      app: sample-app
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: sample-app
+    spec:
+      containers:
+        - name: assignment-go-container
+          image: chronzon/assignment-docker-go:latest
+          imagePullPolicy: Always # or IfNotPresent
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            successThreshold: 1
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 30
+            timeoutSeconds: 1
+          # check if container is alive
+          livenessProbe:
+            httpGet:
+              path: /liveness
+              port: 8080
+            successThreshold: 1
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 1
+         
